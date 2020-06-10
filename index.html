@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
@@ -147,7 +147,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ch">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/09/vue2.x%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/10/Https%E5%8D%8F%E8%AE%AE%E5%AE%89%E5%85%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -161,7 +161,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/06/09/vue2.x%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">vue2.x响应式原理</a>
+            <a href="/2020/06/10/Https%E5%8D%8F%E8%AE%AE%E5%AE%89%E5%85%A8/" class="post-title-link" itemprop="url">Https协议安全</a>
         </h2>
 
         <div class="post-meta">
@@ -172,7 +172,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-06-09 17:22:59 / Modified: 18:11:34" itemprop="dateCreated datePublished" datetime="2020-06-09T17:22:59+08:00">2020-06-09</time>
+              <time title="Created: 2020-06-10 12:38:28 / Modified: 13:02:30" itemprop="dateCreated datePublished" datetime="2020-06-10T12:38:28+08:00">2020-06-10</time>
             </span>
 
           
@@ -186,72 +186,345 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Vue2-x数据变化响应式"><a href="#Vue2-x数据变化响应式" class="headerlink" title="Vue2.x数据变化响应式"></a>Vue2.x数据变化响应式</h1><h2 id="一-数据驱动视图"><a href="#一-数据驱动视图" class="headerlink" title="一. 数据驱动视图"></a>一. 数据驱动视图</h2><p>数据可以理解为状态，数据的变化可能是由用户操作引起的，或者后端数据变化引起的。状态改变了，页面就应该跟随改变，这种特性就是数据驱动视图</p>
-<p><code>UI = render(state)</code></p>
-<p>Vue怎么知道state改变了呢？–变化侦听</p>
-<h2 id="二-Object的变化侦听"><a href="#二-Object的变化侦听" class="headerlink" title="二. Object的变化侦听"></a>二. Object的变化侦听</h2><p>借助<code>Object.defineProperty()</code>对数据的读取和改写进行“侦听”</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  foo: <span class="string">'fooo'</span>,</span><br><span class="line">  bar: <span class="string">'barr'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> val = <span class="string">'fooooo'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty(obj, <span class="string">'foo'</span>, &#123;</span><br><span class="line">  enumerable: <span class="literal">true</span>,</span><br><span class="line">  configurable: <span class="literal">true</span>,</span><br><span class="line">  <span class="keyword">get</span>()&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'foo属性被读取了'</span>)</span><br><span class="line">    <span class="keyword">return</span> val</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="keyword">set</span>(newVal)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'foo属性被修改了'</span>)</span><br><span class="line">    val = newVal</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+          <h2 id="Https"><a href="#Https" class="headerlink" title="Https"></a>Https</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/10/Https%E5%8D%8F%E8%AE%AE%E5%AE%89%E5%85%A8/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
 
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ch">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/10/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/">
 
-<h2 id="三-响应式原理"><a href="#三-响应式原理" class="headerlink" title="三. 响应式原理"></a>三. 响应式原理</h2><p><img src="/2020/06/09/vue2/vue1.png" alt="img"></p>
-<ol>
-<li><p>任何一个 Vue Component 都有<strong>一个渲染Watcher 实例</strong></p>
-</li>
-<li><p>Vue 的 data 上的每一个属性会被添加 <code>getter</code> 和 <code>setter</code></p>
-</li>
-<li><p>当 Vue Component <code>render</code> 函数被执行的时候， data 会被读取，<code>getter</code> 会被调用，此时记录此 Vue component 所依赖的所有 data（这一过程被称为<strong>依赖收集</strong>）</p>
-</li>
-<li><p>data 被改动时（主要是用户操作），<code>setter</code> 方法会被调用，此时 Vue 会去通知所有依赖于此 data 的组件去调用他们的 render 函数进行更新。</p>
-</li>
-</ol>
-<h4 id="如何将一个-Vue-对象最终渲染成页面上的-html-DOM的："><a href="#如何将一个-Vue-对象最终渲染成页面上的-html-DOM的：" class="headerlink" title="如何将一个 Vue 对象最终渲染成页面上的 html DOM的："></a>如何将一个 Vue 对象最终渲染成页面上的 html DOM的：</h4><p><img src="/2020/06/09/vue2/vue2.png" alt="vue2"></p>
-<p><img src="/2020/06/09/vue2/vue3.png" alt="vue3"></p>
-<p><img src="/2020/06/09/vue2/vue4.png" alt="vue4"></p>
-<p><img src="/2020/06/09/vue2/vue5.png" alt="vue5"></p>
-<p><img src="/2020/06/09/vue2/vue6.jpg" alt="vue6"></p>
-<p><code>defineReactive</code>代码中，所有被 Vue reactive 化的属性来说都有一个 <code>Dep</code> 对象与之对应</p>
-<p><img src="/2020/06/09/vue2/vue7.jpg" alt="vue7"></p>
-<p><code>Dep</code>记录了所有依赖对应属性的vue 组件，<code>dep.depend()</code>做的事情就是把<code>Dep.target</code>加入队列，<code>Dep.target</code>就是当前组件对应的watcher</p>
-<p><img src="/2020/06/09/vue2/vue8.jpg" alt="vue8"></p>
-<p>响应式化做好后，会执行<code>$mount</code>，对于每个 Vue 组件实例来说，只会经历一次 mount，所以对于每一个 Vue 实例来说都有一个 Watcher 与之对应</p>
-<p><img src="/2020/06/09/vue2/vue9.jpg" alt="vue9"></p>
-<p>调用了 vue 组件的更新函数, <code>updateComponent</code>，会导致组件的渲染函数 <code>vm._render</code> 被调用，渲染函数的调用会导致模板里涉及的属性的被访问，那么就去调用<code>getter</code>，执行<code>dep.depend()</code></p>
-<p><img src="/2020/06/09/vue2/vue10.jpg" alt="vue10"></p>
-<p><img src="/2020/06/09/vue2/vue11.jpeg" alt="vue11"></p>
-<h2 id="四-数组的变化侦听"><a href="#四-数组的变化侦听" class="headerlink" title="四. 数组的变化侦听"></a>四. 数组的变化侦听</h2><p><code>Object.defineProperty</code> 是可以监控到数组下标的变化的</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span>(<span class="params">data, key, value</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(data, key, &#123;</span><br><span class="line">    enumerable: <span class="literal">true</span>,</span><br><span class="line">    configurable: <span class="literal">true</span>,</span><br><span class="line">     <span class="keyword">get</span>: function defineGet() &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`读取key: <span class="subst">$&#123;key&#125;</span>, value: <span class="subst">$&#123;value&#125;</span>`</span>)</span><br><span class="line">      <span class="keyword">return</span> value</span><br><span class="line">    &#125;,</span><br><span class="line">     <span class="keyword">set</span>: function defineSet(newVal) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`修改key: <span class="subst">$&#123;key&#125;</span>, value: <span class="subst">$&#123;newVal&#125;</span>`</span>)</span><br><span class="line">      value = newVal</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observe</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">Object</span>.keys(data).forEach(<span class="function"><span class="keyword">function</span>(<span class="params">key</span>) </span>&#123;</span><br><span class="line">    defineReactive(data, key, data[key])</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">observe(arr)</span><br></pre></td></tr></table></figure>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="喝西瓜汁">
+      <meta itemprop="description" content="记录日常学习小知识">
+    </span>
 
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喝西瓜汁's">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/10/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/" class="post-title-link" itemprop="url">三次握手</a>
+        </h2>
 
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
 
-<p><img src="/2020/06/09/vue2/vue12.png" alt="vue12"></p>
-<ol>
-<li>push方法</li>
-</ol>
-<p><img src="/2020/06/09/vue2/vue13.png" alt="vue13"></p>
-<ol start="2">
-<li>pop方法</li>
-</ol>
-<p><img src="/2020/06/09/vue2/vue14.png" alt="vue14"></p>
-<ol start="3">
-<li>shift方法</li>
-</ol>
-<p><img src="/2020/06/09/vue2/vue15.png" alt="vue15"></p>
-<ol start="4">
-<li>unshift方法</li>
-</ol>
-<p><img src="/2020/06/09/vue2/vue16.png" alt="vue16"></p>
-<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p><strong>1. 数组其实就是对象，索引相当于key，元素是value。所以<code>Object.definePropery</code>可以侦听到初始数组下标对应的元素。</strong></p>
-<p><strong>2.通过索引访问或设置对应元素的值时，可以触发 getter 和 setter</strong> </p>
-<p><strong>3.push和unshift增加了索引，对于新增加的需要额外处理。</strong></p>
-<p><strong>4.pop和shift删除了元素，删除并更新了索引，也会触发getter和setter</strong></p>
-<p><img src="/2020/06/09/vue2/vue17.png" alt="vue17"></p>
-<p><img src="/2020/06/09/vue2/vue18.png" alt="vue18"></p>
-<p><img src="/2020/06/09/vue2/vue19.png" alt="vue19"></p>
-<p><img src="/2020/06/09/vue2/vue20.png" alt="vue20"></p>
-<p><img src="/2020/06/09/vue2/vue21.png" alt="vue21"></p>
-<p>通过拦截7中方法的“侦听”，有一点不足，直接通过索引更改数组元素不能被“侦听”。</p>
+              <time title="Created: 2020-06-10 12:23:55 / Modified: 12:35:43" itemprop="dateCreated datePublished" datetime="2020-06-10T12:23:55+08:00">2020-06-10</time>
+            </span>
 
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="TCP协议的三次握手和四次挥手"><a href="#TCP协议的三次握手和四次挥手" class="headerlink" title="TCP协议的三次握手和四次挥手"></a>TCP协议的三次握手和四次挥手</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/10/%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ch">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/10/Commonjs%E5%92%8CES6module/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="喝西瓜汁">
+      <meta itemprop="description" content="记录日常学习小知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喝西瓜汁's">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/10/Commonjs%E5%92%8CES6module/" class="post-title-link" itemprop="url">Commonjs和ES6module</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-10 11:36:01 / Modified: 12:22:20" itemprop="dateCreated datePublished" datetime="2020-06-10T11:36:01+08:00">2020-06-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="CommonJs和ES6-Module的区别"><a href="#CommonJs和ES6-Module的区别" class="headerlink" title="CommonJs和ES6 Module的区别"></a>CommonJs和ES6 Module的区别</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/10/Commonjs%E5%92%8CES6module/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ch">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/10/%E6%89%8B%E5%86%99%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="喝西瓜汁">
+      <meta itemprop="description" content="记录日常学习小知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喝西瓜汁's">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/10/%E6%89%8B%E5%86%99%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/" class="post-title-link" itemprop="url">手写防抖和节流</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-10 11:17:59 / Modified: 11:22:19" itemprop="dateCreated datePublished" datetime="2020-06-10T11:17:59+08:00">2020-06-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="函数防抖、节流"><a href="#函数防抖、节流" class="headerlink" title="函数防抖、节流"></a>函数防抖、节流</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/10/%E6%89%8B%E5%86%99%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ch">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="喝西瓜汁">
+      <meta itemprop="description" content="记录日常学习小知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喝西瓜汁's">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/" class="post-title-link" itemprop="url">浏览器相关知识</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-10 10:54:09 / Modified: 11:16:58" itemprop="dateCreated datePublished" datetime="2020-06-10T10:54:09+08:00">2020-06-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="浏览器缓存和回流重绘"><a href="#浏览器缓存和回流重绘" class="headerlink" title="浏览器缓存和回流重绘"></a>浏览器缓存和回流重绘</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ch">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="喝西瓜汁">
+      <meta itemprop="description" content="记录日常学习小知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喝西瓜汁's">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">vue响应式原理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-10 10:44:02 / Modified: 11:13:49" itemprop="dateCreated datePublished" datetime="2020-06-10T10:44:02+08:00">2020-06-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Vue2-x数据变化响应式原理"><a href="#Vue2-x数据变化响应式原理" class="headerlink" title="Vue2.x数据变化响应式原理"></a>Vue2.x数据变化响应式原理</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -332,7 +605,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

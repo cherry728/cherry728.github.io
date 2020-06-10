@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
@@ -20,41 +20,41 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Vue2.x数据变化响应式一. 数据驱动视图数据可以理解为状态，数据的变化可能是由用户操作引起的，或者后端数据变化引起的。状态改变了，页面就应该跟随改变，这种特性就是数据驱动视图 UI &#x3D; render(state) Vue怎么知道state改变了呢？–变化侦听 二. Object的变化侦听借助Object.defineProperty()对数据的读取和改写进行“侦听” 1234567891011">
+  <meta name="description" content="Vue2.x数据变化响应式原理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vue2.x响应式原理">
-<meta property="og:url" content="http://yoursite.com/2020/06/09/vue2.x%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:title" content="vue响应式原理">
+<meta property="og:url" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="喝西瓜汁&#39;s">
-<meta property="og:description" content="Vue2.x数据变化响应式一. 数据驱动视图数据可以理解为状态，数据的变化可能是由用户操作引起的，或者后端数据变化引起的。状态改变了，页面就应该跟随改变，这种特性就是数据驱动视图 UI &#x3D; render(state) Vue怎么知道state改变了呢？–变化侦听 二. Object的变化侦听借助Object.defineProperty()对数据的读取和改写进行“侦听” 1234567891011">
+<meta property="og:description" content="Vue2.x数据变化响应式原理">
 <meta property="og:locale" content="ch">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue1.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue2.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue3.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue4.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue5.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue6.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue7.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue8.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue9.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue10.jpg">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue11.jpeg">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue12.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue13.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue14.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue15.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue16.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue17.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue18.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue19.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue20.png">
-<meta property="og:image" content="http://yoursite.com/2020/06/09/vue2/vue21.png">
-<meta property="article:published_time" content="2020-06-09T09:22:59.588Z">
-<meta property="article:modified_time" content="2020-06-09T10:11:34.344Z">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue1.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue2.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue3.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue4.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue5.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue6.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue7.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue8.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue9.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue10.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue11.jpeg">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue12.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue13.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue14.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue15.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue16.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue17.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue18.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue19.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue20.png">
+<meta property="og:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue21.png">
+<meta property="article:published_time" content="2020-06-10T02:44:02.640Z">
+<meta property="article:modified_time" content="2020-06-10T03:13:49.673Z">
 <meta property="article:author" content="喝西瓜汁">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/06/09/vue2/vue1.png">
+<meta name="twitter:image" content="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue1.png">
 
-<link rel="canonical" href="http://yoursite.com/2020/06/09/vue2.x%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/">
+<link rel="canonical" href="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/">
 
 
 <script id="page-configurations">
@@ -67,7 +67,7 @@
   };
 </script>
 
-  <title>vue2.x响应式原理 | 喝西瓜汁's</title>
+  <title>vue响应式原理 | 喝西瓜汁's</title>
   
 
 
@@ -172,7 +172,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ch">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/09/vue2.x%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -185,7 +185,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          vue2.x响应式原理
+          vue响应式原理
         </h1>
 
         <div class="post-meta">
@@ -196,7 +196,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-06-09 17:22:59 / Modified: 18:11:34" itemprop="dateCreated datePublished" datetime="2020-06-09T17:22:59+08:00">2020-06-09</time>
+              <time title="Created: 2020-06-10 10:44:02 / Modified: 11:13:49" itemprop="dateCreated datePublished" datetime="2020-06-10T10:44:02+08:00">2020-06-10</time>
             </span>
 
           
@@ -210,7 +210,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Vue2-x数据变化响应式"><a href="#Vue2-x数据变化响应式" class="headerlink" title="Vue2.x数据变化响应式"></a>Vue2.x数据变化响应式</h1><h2 id="一-数据驱动视图"><a href="#一-数据驱动视图" class="headerlink" title="一. 数据驱动视图"></a>一. 数据驱动视图</h2><p>数据可以理解为状态，数据的变化可能是由用户操作引起的，或者后端数据变化引起的。状态改变了，页面就应该跟随改变，这种特性就是数据驱动视图</p>
+        <h1 id="Vue2-x数据变化响应式原理"><a href="#Vue2-x数据变化响应式原理" class="headerlink" title="Vue2.x数据变化响应式原理"></a>Vue2.x数据变化响应式原理</h1><a id="more"></a>
+
+<h2 id="一-数据驱动视图"><a href="#一-数据驱动视图" class="headerlink" title="一. 数据驱动视图"></a>一. 数据驱动视图</h2><p>数据可以理解为状态，数据的变化可能是由用户操作引起的，或者后端数据变化引起的。状态改变了，页面就应该跟随改变，这种特性就是数据驱动视图</p>
 <p><code>UI = render(state)</code></p>
 <p>Vue怎么知道state改变了呢？–变化侦听</p>
 <h2 id="二-Object的变化侦听"><a href="#二-Object的变化侦听" class="headerlink" title="二. Object的变化侦听"></a>二. Object的变化侦听</h2><p>借助<code>Object.defineProperty()</code>对数据的读取和改写进行“侦听”</p>
@@ -218,7 +220,7 @@
 
 
 
-<h2 id="三-响应式原理"><a href="#三-响应式原理" class="headerlink" title="三. 响应式原理"></a>三. 响应式原理</h2><p><img src="/2020/06/09/vue2/vue1.png" alt="img"></p>
+<h2 id="三-响应式原理"><a href="#三-响应式原理" class="headerlink" title="三. 响应式原理"></a>三. 响应式原理</h2><p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue1.png" alt="img"></p>
 <ol>
 <li><p>任何一个 Vue Component 都有<strong>一个渲染Watcher 实例</strong></p>
 </li>
@@ -229,51 +231,51 @@
 <li><p>data 被改动时（主要是用户操作），<code>setter</code> 方法会被调用，此时 Vue 会去通知所有依赖于此 data 的组件去调用他们的 render 函数进行更新。</p>
 </li>
 </ol>
-<h4 id="如何将一个-Vue-对象最终渲染成页面上的-html-DOM的："><a href="#如何将一个-Vue-对象最终渲染成页面上的-html-DOM的：" class="headerlink" title="如何将一个 Vue 对象最终渲染成页面上的 html DOM的："></a>如何将一个 Vue 对象最终渲染成页面上的 html DOM的：</h4><p><img src="/2020/06/09/vue2/vue2.png" alt="vue2"></p>
-<p><img src="/2020/06/09/vue2/vue3.png" alt="vue3"></p>
-<p><img src="/2020/06/09/vue2/vue4.png" alt="vue4"></p>
-<p><img src="/2020/06/09/vue2/vue5.png" alt="vue5"></p>
-<p><img src="/2020/06/09/vue2/vue6.jpg" alt="vue6"></p>
+<h4 id="如何将一个-Vue-对象最终渲染成页面上的-html-DOM的："><a href="#如何将一个-Vue-对象最终渲染成页面上的-html-DOM的：" class="headerlink" title="如何将一个 Vue 对象最终渲染成页面上的 html DOM的："></a>如何将一个 Vue 对象最终渲染成页面上的 html DOM的：</h4><p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue2.png" alt="vue2"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue3.png" alt="vue3"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue4.png" alt="vue4"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue5.png" alt="vue5"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue6.jpg" alt="vue6"></p>
 <p><code>defineReactive</code>代码中，所有被 Vue reactive 化的属性来说都有一个 <code>Dep</code> 对象与之对应</p>
-<p><img src="/2020/06/09/vue2/vue7.jpg" alt="vue7"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue7.jpg" alt="vue7"></p>
 <p><code>Dep</code>记录了所有依赖对应属性的vue 组件，<code>dep.depend()</code>做的事情就是把<code>Dep.target</code>加入队列，<code>Dep.target</code>就是当前组件对应的watcher</p>
-<p><img src="/2020/06/09/vue2/vue8.jpg" alt="vue8"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue8.jpg" alt="vue8"></p>
 <p>响应式化做好后，会执行<code>$mount</code>，对于每个 Vue 组件实例来说，只会经历一次 mount，所以对于每一个 Vue 实例来说都有一个 Watcher 与之对应</p>
-<p><img src="/2020/06/09/vue2/vue9.jpg" alt="vue9"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue9.jpg" alt="vue9"></p>
 <p>调用了 vue 组件的更新函数, <code>updateComponent</code>，会导致组件的渲染函数 <code>vm._render</code> 被调用，渲染函数的调用会导致模板里涉及的属性的被访问，那么就去调用<code>getter</code>，执行<code>dep.depend()</code></p>
-<p><img src="/2020/06/09/vue2/vue10.jpg" alt="vue10"></p>
-<p><img src="/2020/06/09/vue2/vue11.jpeg" alt="vue11"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue10.jpg" alt="vue10"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue11.jpeg" alt="vue11"></p>
 <h2 id="四-数组的变化侦听"><a href="#四-数组的变化侦听" class="headerlink" title="四. 数组的变化侦听"></a>四. 数组的变化侦听</h2><p><code>Object.defineProperty</code> 是可以监控到数组下标的变化的</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span>(<span class="params">data, key, value</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">Object</span>.defineProperty(data, key, &#123;</span><br><span class="line">    enumerable: <span class="literal">true</span>,</span><br><span class="line">    configurable: <span class="literal">true</span>,</span><br><span class="line">     <span class="keyword">get</span>: function defineGet() &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`读取key: <span class="subst">$&#123;key&#125;</span>, value: <span class="subst">$&#123;value&#125;</span>`</span>)</span><br><span class="line">      <span class="keyword">return</span> value</span><br><span class="line">    &#125;,</span><br><span class="line">     <span class="keyword">set</span>: function defineSet(newVal) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">`修改key: <span class="subst">$&#123;key&#125;</span>, value: <span class="subst">$&#123;newVal&#125;</span>`</span>)</span><br><span class="line">      value = newVal</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observe</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">Object</span>.keys(data).forEach(<span class="function"><span class="keyword">function</span>(<span class="params">key</span>) </span>&#123;</span><br><span class="line">    defineReactive(data, key, data[key])</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">observe(arr)</span><br></pre></td></tr></table></figure>
 
 
 
-<p><img src="/2020/06/09/vue2/vue12.png" alt="vue12"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue12.png" alt="vue12"></p>
 <ol>
 <li>push方法</li>
 </ol>
-<p><img src="/2020/06/09/vue2/vue13.png" alt="vue13"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue13.png" alt="vue13"></p>
 <ol start="2">
 <li>pop方法</li>
 </ol>
-<p><img src="/2020/06/09/vue2/vue14.png" alt="vue14"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue14.png" alt="vue14"></p>
 <ol start="3">
 <li>shift方法</li>
 </ol>
-<p><img src="/2020/06/09/vue2/vue15.png" alt="vue15"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue15.png" alt="vue15"></p>
 <ol start="4">
 <li>unshift方法</li>
 </ol>
-<p><img src="/2020/06/09/vue2/vue16.png" alt="vue16"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue16.png" alt="vue16"></p>
 <h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p><strong>1. 数组其实就是对象，索引相当于key，元素是value。所以<code>Object.definePropery</code>可以侦听到初始数组下标对应的元素。</strong></p>
 <p><strong>2.通过索引访问或设置对应元素的值时，可以触发 getter 和 setter</strong> </p>
 <p><strong>3.push和unshift增加了索引，对于新增加的需要额外处理。</strong></p>
 <p><strong>4.pop和shift删除了元素，删除并更新了索引，也会触发getter和setter</strong></p>
-<p><img src="/2020/06/09/vue2/vue17.png" alt="vue17"></p>
-<p><img src="/2020/06/09/vue2/vue18.png" alt="vue18"></p>
-<p><img src="/2020/06/09/vue2/vue19.png" alt="vue19"></p>
-<p><img src="/2020/06/09/vue2/vue20.png" alt="vue20"></p>
-<p><img src="/2020/06/09/vue2/vue21.png" alt="vue21"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue17.png" alt="vue17"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue18.png" alt="vue18"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue19.png" alt="vue19"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue20.png" alt="vue20"></p>
+<p><img src="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/vue21.png" alt="vue21"></p>
 <p>通过拦截7中方法的“侦听”，有一点不足，直接通过索引更改数组元素不能被“侦听”。</p>
 
     </div>
@@ -288,6 +290,13 @@
 
 
         
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/" rel="next" title="浏览器相关知识">
+      浏览器相关知识 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
     
   </article>
@@ -345,7 +354,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue2-x数据变化响应式"><span class="nav-number">1.</span> <span class="nav-text">Vue2.x数据变化响应式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-数据驱动视图"><span class="nav-number">1.1.</span> <span class="nav-text">一. 数据驱动视图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-Object的变化侦听"><span class="nav-number">1.2.</span> <span class="nav-text">二. Object的变化侦听</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-响应式原理"><span class="nav-number">1.3.</span> <span class="nav-text">三. 响应式原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如何将一个-Vue-对象最终渲染成页面上的-html-DOM的："><span class="nav-number">1.3.0.1.</span> <span class="nav-text">如何将一个 Vue 对象最终渲染成页面上的 html DOM的：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四-数组的变化侦听"><span class="nav-number">1.4.</span> <span class="nav-text">四. 数组的变化侦听</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#总结："><span class="nav-number">1.4.0.1.</span> <span class="nav-text">总结：</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue2-x数据变化响应式原理"><span class="nav-number">1.</span> <span class="nav-text">Vue2.x数据变化响应式原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-数据驱动视图"><span class="nav-number">1.1.</span> <span class="nav-text">一. 数据驱动视图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-Object的变化侦听"><span class="nav-number">1.2.</span> <span class="nav-text">二. Object的变化侦听</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-响应式原理"><span class="nav-number">1.3.</span> <span class="nav-text">三. 响应式原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如何将一个-Vue-对象最终渲染成页面上的-html-DOM的："><span class="nav-number">1.3.0.1.</span> <span class="nav-text">如何将一个 Vue 对象最终渲染成页面上的 html DOM的：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四-数组的变化侦听"><span class="nav-number">1.4.</span> <span class="nav-text">四. 数组的变化侦听</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#总结："><span class="nav-number">1.4.0.1.</span> <span class="nav-text">总结：</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -359,7 +368,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
