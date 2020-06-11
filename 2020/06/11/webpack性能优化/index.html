@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cherry728.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="webpack的性能优化可以分别从开发环境和生产环境实施不同的配置。开发环境又可以分别从打包速度和代码调试角度考虑；生产环境可以从打包速度和代码运行性能的角度考虑。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack性能优化">
+<meta property="og:url" content="https://cherry728.github.io/2020/06/11/webpack%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="喝西瓜汁&#39;s">
+<meta property="og:description" content="webpack的性能优化可以分别从开发环境和生产环境实施不同的配置。开发环境又可以分别从打包速度和代码调试角度考虑；生产环境可以从打包速度和代码运行性能的角度考虑。">
+<meta property="og:locale" content="ch">
+<meta property="article:published_time" content="2020-06-11T08:21:46.000Z">
+<meta property="article:modified_time" content="2020-06-11T08:24:24.949Z">
+<meta property="article:author" content="喝西瓜汁">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://cherry728.github.io/2020/06/11/webpack%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'ch'
+  };
+</script>
+
+  <title>webpack性能优化 | 喝西瓜汁's</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">喝西瓜汁's</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="ch">
+    <link itemprop="mainEntityOfPage" href="https://cherry728.github.io/2020/06/11/webpack%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="喝西瓜汁">
+      <meta itemprop="description" content="记录日常学习小知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喝西瓜汁's">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          webpack性能优化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-11 16:21:46 / Modified: 16:24:24" itemprop="dateCreated datePublished" datetime="2020-06-11T16:21:46+08:00">2020-06-11</time>
+            </span>
+
+          
+            <div class="post-description">webpack的性能优化可以分别从开发环境和生产环境实施不同的配置。开发环境又可以分别从打包速度和代码调试角度考虑；生产环境可以从打包速度和代码运行性能的角度考虑。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="webpack性能优化"><a href="#webpack性能优化" class="headerlink" title="webpack性能优化"></a>webpack性能优化</h2><h3 id="一-开发环境性能优化："><a href="#一-开发环境性能优化：" class="headerlink" title="一. 开发环境性能优化："></a>一. 开发环境性能优化：</h3><ol>
+<li><h4 id="优化打包构建速度"><a href="#优化打包构建速度" class="headerlink" title="优化打包构建速度"></a>优化打包构建速度</h4><ol>
+<li><strong>HMR（hot module replacement）</strong>: 哪个模块变化了就构建哪个模块</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">devServer: &#123;</span><br><span class="line">	hot: <span class="literal">true</span> <span class="comment">// 开启HMR功能</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<pre><code>1. 样式文件：之所以可以使用HMR，是因为**style-loader**内部实现了HMR功能
+2. js文件：默认没有HMR功能，页面会重新刷新，只能处理非入口文件</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="built_in">module</span>.hot) &#123;</span><br><span class="line">  <span class="comment">// 说明开启了HMR</span></span><br><span class="line">	<span class="built_in">module</span>.hot.accept(<span class="string">'./print.js'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 监听print.js文件的变化，一旦变化，其他模块不会重新打包构建</span></span><br><span class="line">		print()</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<pre><code>1. html文件：默认没有HMR功能，同时html文件不能热更新了（需要在entry写上html文件入口），也不用做HMR功能</code></pre><ol start="2">
+<li><h4 id="优化代码调试"><a href="#优化代码调试" class="headerlink" title="优化代码调试"></a>优化代码调试</h4><ol>
+<li><p>source-map</p>
+<p>推荐：</p>
+<ol>
+<li>开发环境：eval-source-map / eval-cheap-module-source-map(打包信息很完整)</li>
+<li>生产环境：source-map /  cheap-module-source-map</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="二-生产环境的优化"><a href="#二-生产环境的优化" class="headerlink" title="二. 生产环境的优化"></a>二. 生产环境的优化</h3><ol>
+<li><h4 id="优化打包构建速度："><a href="#优化打包构建速度：" class="headerlink" title="优化打包构建速度："></a>优化打包构建速度：</h4><ol>
+<li>oneOf：匹配loader的时候，只会匹配一个，一旦匹配，下面的就不走了。<strong>注意：</strong>不能有两个同类型的文件配置loader处理，<strong>解决方法</strong>：提出去一个</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">rules: [</span><br><span class="line">  &#123;</span><br><span class="line">    oneOf: [</span><br><span class="line">      &#123;</span><br><span class="line">				test: ,</span><br><span class="line">				use:</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">      	test: ,</span><br><span class="line">      	use: </span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="2">
+<li>babel缓存：优化打包构建速度</li>
+<li>多进程打包：启动就要600ms，进程通信也有开销，所以很耗时的打包可以使用</li>
+<li>externals：让某些库不打包，通过cdn引用</li>
+<li>Dll：把库先打包好，后面直接引用，生成一个manifest.json文件生成映射关系，文件部署在线上服务器。<ol>
+<li>一个单独打包库的<code>webpack.dll.config.js</code></li>
+<li>一个主要配置<code>webpack.config.js</code></li>
+</ol>
+</li>
+</ol>
+<ol start="2">
+<li><h4 id="优化代码运行的性能："><a href="#优化代码运行的性能：" class="headerlink" title="优化代码运行的性能："></a>优化代码运行的性能：</h4><ol>
+<li><p>缓存，hash值做文件版本号缓存</p>
+<ol>
+<li>hash：每次打包都有一个不同的hash值</li>
+<li>chunkhash：同一个chunk有相同的chunkHash</li>
+<li>contenthash：根据文件内容生成hash值</li>
+</ol>
+</li>
+<li><p>tree-shaking：没用到的代码，打包后过滤掉（js需要用es6模式，mode: production），sideEffect: [不想被删除的文件]</p>
+</li>
+<li><p>code-split：</p>
+<ol>
+<li>单入口：默认输出只有一个bundle，模块多的话，代码体积太大。所以拆分，并行加载</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 分割node_modules下的代码</span></span><br><span class="line">optimization: &#123;</span><br><span class="line">  <span class="comment">// 会把node_modules下面的文件单独打包成一个chunk，输出至少有两个文件，一个vendor，一个index.js</span></span><br><span class="line">	splitChunks: &#123;</span><br><span class="line">		chunk: <span class="string">'all'</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 分割指定的js代码</span></span><br><span class="line"><span class="keyword">import</span>(<span class="comment">/*webpackChunkName: 'test'*/</span><span class="string">'./test'</span>).then().catch()</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+</li>
+</ol>
+<pre><code>2. 多入口：有几个入口输出几个文件
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 分割node_modules下的代码</span></span><br><span class="line">optimization: &#123;</span><br><span class="line">  <span class="comment">// 会把node_modules下面的文件单独打包成一个chunk，输出至少有两个文件，一个vendor，一个index.js</span></span><br><span class="line">	splitChunks: &#123;</span><br><span class="line">		chunk: <span class="string">'all'</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 分割指定的js代码</span></span><br><span class="line"><span class="keyword">import</span>(<span class="comment">/*webpackChunkName: 'test'*/</span><span class="string">'./test'</span>).then().catch()</span><br></pre></td></tr></table></figure></code></pre><ol start="4">
+<li><p>懒加载：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>(<span class="comment">/*webpackChunkName: 'test'*/</span><span class="string">'./test'</span>).then().catch()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>预加载：利用浏览器空闲时，偷偷加载，但是兼容性比较差，慎用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>(<span class="comment">/*webpackPrefetch: true*/</span><span class="string">'./test'</span>).then().catch()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>PWA：目的是实现离线可访问，兼容性问题<code>if(&#39;service&#39; in navigator)</code></p>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/10/vue%E5%93%8D%E5%BA%94%E5%BC%8F%E5%8E%9F%E7%90%86/" rel="prev" title="Vue2.x数据变化响应式原理">
+      <i class="fa fa-chevron-left"></i> Vue2.x数据变化响应式原理
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#webpack性能优化"><span class="nav-number">1.</span> <span class="nav-text">webpack性能优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-开发环境性能优化："><span class="nav-number">1.1.</span> <span class="nav-text">一. 开发环境性能优化：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优化打包构建速度"><span class="nav-number">1.1.1.</span> <span class="nav-text">优化打包构建速度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化代码调试"><span class="nav-number">1.1.2.</span> <span class="nav-text">优化代码调试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-生产环境的优化"><span class="nav-number">1.2.</span> <span class="nav-text">二. 生产环境的优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#优化打包构建速度："><span class="nav-number">1.2.1.</span> <span class="nav-text">优化打包构建速度：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优化代码运行的性能："><span class="nav-number">1.2.2.</span> <span class="nav-text">优化代码运行的性能：</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">喝西瓜汁</p>
+  <div class="site-description" itemprop="description">记录日常学习小知识</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喝西瓜汁</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/pjax/pjax.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+  <script>
+var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});
+</script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+    </div>
+</body>
+</html>
