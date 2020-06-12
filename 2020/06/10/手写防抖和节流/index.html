@@ -28,7 +28,7 @@
 <meta property="og:description" content="包含函数的防抖、节流，new关键字的实现，instanceof的实现，call&#x2F;apply&#x2F;bind等函数手写代码。">
 <meta property="og:locale" content="ch">
 <meta property="article:published_time" content="2020-06-10T05:25:30.000Z">
-<meta property="article:modified_time" content="2020-06-11T08:17:51.512Z">
+<meta property="article:modified_time" content="2020-06-12T04:13:13.766Z">
 <meta property="article:author" content="喝西瓜汁">
 <meta name="twitter:card" content="summary">
 
@@ -180,7 +180,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-11 16:17:51" itemprop="dateModified" datetime="2020-06-11T16:17:51+08:00">2020-06-11</time>
+                <time title="Modified: 2020-06-12 12:13:13" itemprop="dateModified" datetime="2020-06-12T12:13:13+08:00">2020-06-12</time>
               </span>
 
           
@@ -229,7 +229,7 @@
 1. 创建一个空对象
 2. 空对象的__proto__指向构造函数的原型对象
 3. this指向这个空对象
-4. 执行构造函数，如果执行结果返回对象，那么就返回这个对象，否则返回那个新创建的对象</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myNew</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> Ctor = [].shift.call(<span class="built_in">arguments</span>)</span><br><span class="line">    <span class="keyword">const</span> obj = <span class="built_in">Object</span>.create(Ctor)</span><br><span class="line">    <span class="keyword">const</span> res = Ctor.call(obj, ...arguments)</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">typeof</span> res === <span class="string">'object'</span> ? res : obj</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+4. 执行构造函数，如果执行结果返回对象，那么就返回这个对象，否则返回那个新创建的对象</code></pre><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myNew</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> Ctor = [].shift.call(<span class="built_in">arguments</span>)</span><br><span class="line">    <span class="keyword">const</span> obj = <span class="built_in">Object</span>.create(Ctor)</span><br><span class="line">    <span class="keyword">const</span> res = Ctor.call(obj, ...arguments)</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">typeof</span> res === <span class="string">'object'</span> ? res : obj</span><br><span class="line">&#125;π</span><br></pre></td></tr></table></figure>
 
 <h2 id="手写call-apply-bind"><a href="#手写call-apply-bind" class="headerlink" title="手写call/apply/bind"></a>手写call/apply/bind</h2><p>这几个方法都是函数Function的原型对象上的方法</p>
 <h3 id="call"><a href="#call" class="headerlink" title="call"></a>call</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// fn.call(obj, 参数)</span></span><br><span class="line"><span class="built_in">Function</span>.prototype.myCall = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 首先我们从arguments中取出第一个参数，这个参数是方法执行时候的this</span></span><br><span class="line">    <span class="keyword">const</span> ctx = <span class="built_in">window</span>, argArr = []</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">arguments</span>.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        ctx = <span class="built_in">arguments</span>[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">1</span>; i &lt; <span class="built_in">arguments</span>.length; i++) &#123;</span><br><span class="line">            argArr.push(<span class="built_in">arguments</span>[i])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// this是调用call方法的对象</span></span><br><span class="line">    ctx[<span class="string">'fn'</span>] = <span class="keyword">this</span></span><br><span class="line">    <span class="keyword">const</span> res = ctx[<span class="string">'fn'</span>](...argArr)</span><br><span class="line">    <span class="keyword">delete</span> ctx[<span class="string">'fn'</span>]</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Function</span>.prototype.myCall = <span class="function"><span class="keyword">function</span>(<span class="params">...arg</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> ctx = arg.shift() || <span class="built_in">window</span></span><br><span class="line">    ctx[<span class="string">'fn'</span>] = <span class="keyword">this</span></span><br><span class="line">    <span class="keyword">const</span> res = ctx[<span class="string">'fn'</span>](...arg)</span><br><span class="line">    <span class="keyword">delete</span> ctx[<span class="string">'fn'</span>]</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -258,8 +258,8 @@
       <i class="fa fa-chevron-left"></i> CommonJs和ES6 Module
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/06/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/" rel="next" title="浏览器缓存和回流重绘">
-      浏览器缓存和回流重绘 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/06/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86/" rel="next" title="浏览器缓存">
+      浏览器缓存 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -333,7 +333,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
